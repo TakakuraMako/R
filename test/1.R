@@ -10,3 +10,8 @@ print(a)
 # 列表
 b <- list(1, 2, 3)
 print(b[[1]] + b[[3]])
+
+sum <- function(x){
+  x + 1
+}
+sum(a)
