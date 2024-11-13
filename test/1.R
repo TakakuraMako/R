@@ -1,22 +1,23 @@
 library(tidyverse)
-# 赋值
+# 向量
 mystring <- "Hello World"
 # print(mystring)
+print(typeof(mystring))
 
 # 向量组合、命名
 a <- c(1, 2, 3)
 names(a) <- c("aa", "ab", "ac")
-print(a)
-
+print(a[2])
+print(length(a))
+print(typeof(c(1, TRUE, "a")))
 # 列表
 b <- list(
   a = c(5, 10),
   b = c("I", "love", "R", "language", "!"),
   c = c(TRUE, TRUE, FALSE, TRUE)
 )
-
-print(b[[1]])
-
+print(typeof(b))
+print(list("a", 1))
 # 数据框
 df <- data.frame(
   name      = c("Alice", "Bob", "Carl", "Dave"),
@@ -25,11 +26,6 @@ df <- data.frame(
   color     = c("red", "blue", "orange", "purple")
 )
 print(df["name"], df[[1]])
-# 函数
-sum <- function(x){
-  x + 1
-}
-sum(a)
 
 # 矩阵
 m <- matrix(
@@ -39,3 +35,9 @@ m <- matrix(
   byrow = TRUE
 )
 print(m)
+
+# 函数
+sum <- function(x){
+  x + 1
+}
+sum(a)
