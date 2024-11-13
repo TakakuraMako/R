@@ -10,6 +10,7 @@ names(a) <- c("aa", "ab", "ac")
 print(a[2])
 print(length(a))
 print(typeof(c(1, TRUE, "a")))
+
 # 列表
 b <- list(
   a = c(5, 10),
@@ -18,6 +19,9 @@ b <- list(
 )
 print(typeof(b))
 print(list("a", 1))
+
+s <- seq(from = 1, to = 10, by = 0.5)
+s3 <- rep(x = c(0, 1), each = 3)
 # 数据框
 df <- data.frame(
   name      = c("Alice", "Bob", "Carl", "Dave"),

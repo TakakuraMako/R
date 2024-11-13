@@ -1,0 +1,12 @@
+# Z-Score算法
+## 1.数学公式
+$z^*=\frac{x - \mu}{\sigma}$
+其中$x$为原始数据，$\mu$为样本均值，$\sigma$为样本方差
+## 2.R语言实现
+```{r}
+data = 1:10
+z_score <- function(data){
+  (data - mean(data)) / sd(data)
+}
+print(z_score(v))
+```
