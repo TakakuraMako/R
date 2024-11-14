@@ -69,3 +69,5 @@ a <- 1:10
 b <- seq(from = 1, to = 10, by = 1)
 print(typeof(a))
 print(typeof(b))
+
+a <- as.character(1)
