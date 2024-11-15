@@ -4,20 +4,28 @@
 
 # 伪回归
 
-## 线性回归
+## 1. 线性回归
 
 $$y_t = a+bx_t+\epsilon_t$$
 
-需要假定\\{\epsilon\\}是不相关的
+需要假定$\{ \epsilon \}$是不相关的。$E(\epsilon)=0$,$Var(\epsilon)=\sigma^2$。
 
-## 2.R语言实现
+若 $x_i$ 非随机，a,b最小二乘估计是无偏的$$\hat{a}=\overline{y}-\hat{b}\overline{x}$$$$\hat{b}=\frac{S_{xy}}{S_{xx}}$$$$S_{xy}=\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})$$ 若$x_t,y_t,\epsilon_t$是时间序列，则结果可能不相合，或参数估计不相合
 
-```{r}
-data = c(1, 3, 6)
-z_score <- function(data){
-  (data - mean(data)) / sd(data)
-}
-print(z_score(data))
-```
+看上去拟合度很高，$r^2$ 很高，实际上参数不相合
 
-[1] -0.9271726 -0.1324532 1.0596259
+## 2. 协整关系
+
+$x_t=(x_{1t},x_{2t})^T$,$x_{1t},x_{2t}$都是一元单位根过程，$$x_{1t}=x_{1t-1}+\epsilon_1,x_{2t}=x_{2t-1}+\epsilon_2$$ 存在$\beta=(\beta_1,\beta_2),s.t. z_t=\beta_{1}x_{1t}+\beta_{2}x_{2t}$是弱平稳的，则两者为协整关系，$\beta$为协整向量
+
+检验协整关系。一元单位根检验两个x是单位根过程，并且差分后没有单位根。$\nabla x_t=x_t-x_{t-1}=\epsilon_t$ $$x_{1t}=\beta_{0}+\beta_{1} x_{2t}+e_t$$在协整关系成立时参数估计是相合的
+
+## 3. VARMA模型 {#sec-3.-varma模型}
+
+$$P(B)r_t=Q(B)a_t$$$$P(B)=I-\Phi_1B-\dots-\Phi_pB^p$$$$Q(B)=I-\Theta_1B-\dots-\Theta_qB^q$$
+$$
+\left(\begin{array}{1}
+1 & 2 \\
+3 & 4
+\end{array}\right)
+$$
