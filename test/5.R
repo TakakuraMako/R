@@ -9,7 +9,7 @@ ggplot(data = data %>% filter(AverageTemperature >= 10), aes(x = Time, y = Avera
   geom_smooth(method = "lm") +
   xlab("year") + ylab("Tempreture") + 
   ggtitle("温度")
-
+?slice()
 # ggsave(
 #   plot = p1,
 #   filename = "my_plot.pdf",
