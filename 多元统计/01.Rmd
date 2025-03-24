@@ -1,0 +1,31 @@
+---
+title: "01"
+documentclass: ctexart
+geometry: margin=2cm
+output:
+  pdf_document:
+    toc: true
+  rticles::ctex:
+---
+
+## 导入数据
+
+```{r out.width = '100%', message=FALSE, warning=FALSE}
+library(tidyverse)
+data <- data.frame(
+  x1 = c(3.7,5.7,3.8,3.2,3.1,4.6,2.4,7.2,6.7,5.4,3.9,4.5,3.5,4.5,1.5,8.5,4.5,6.5,4.1,5.5),
+  x2 = c(48.5,65.1,47.2,53.2,55.5,36.1,24.8,33.1,47.4,54.1,36.9,58.8,27.8,40.2,13.5,56.4,71.6,52.8,44.1,40.9),
+  x3 = c(9.3,8.0,10.9,12.0,9.7,7.9,14.0,7.6,8.5,11.3,12.7,12.3,9.8,8.4,10.1,7.1,8.2,10.9,11.2,9.4)
+)
+data %>% head(5)
+```
+
+## 分析
+
+```{r ,fig.showtext=TRUE, message=FALSE, warning=FALSE}
+library(ICSNP)
+mu0 <- c(4, 50, 10)
+result <- HotellingsT2(data, mu=mu0)
+print(result)
+```
+p值0.06493，不能拒绝原假设
