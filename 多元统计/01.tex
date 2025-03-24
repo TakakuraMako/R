@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-]{ctexart}
+]{ctex}
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
 \ifPDFTeX
@@ -141,6 +141,8 @@
 
 \subsection{第(1)问}\label{ux7b2c1ux95ee}
 
+\subsubsection{直接调用函数}\label{ux76f4ux63a5ux8c03ux7528ux51fdux6570}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(ICSNP)}
@@ -161,35 +163,20 @@
 
 p值0.06493，不能拒绝原假设
 
-\subsection{第(2)问}\label{ux7b2c2ux95ee}
+\subsubsection{手动计算}\label{ux624bux52a8ux8ba1ux7b97}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# 计算样本均值向量和协方差矩阵}
-\NormalTok{x\_bar }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(data)}
-\NormalTok{S }\OtherTok{\textless{}{-}} \FunctionTok{cov}\NormalTok{(data)}
-\NormalTok{S\_inv }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(S)}
-
+\NormalTok{x\_ave }\OtherTok{=} \FunctionTok{colMeans}\NormalTok{(data)}
+\NormalTok{S }\OtherTok{\textless{}{-}} \FunctionTok{cov}\NormalTok{(data) }\CommentTok{\#协方差矩阵}
+\NormalTok{S\_inv }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(S) }\CommentTok{\#逆矩阵}
 \NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(data)  }\CommentTok{\# 样本量 n = 20}
 \NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(data)  }\CommentTok{\# 变量维度 p = 3}
 
-\CommentTok{\# 计算临界值}
-\NormalTok{alpha }\OtherTok{\textless{}{-}} \FloatTok{0.05}
-\NormalTok{F\_critical }\OtherTok{\textless{}{-}} \FunctionTok{qf}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alpha, p, n }\SpecialCharTok{{-}}\NormalTok{ p)}
-\NormalTok{c\_value }\OtherTok{\textless{}{-}}\NormalTok{ (p }\SpecialCharTok{*}\NormalTok{ (n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{/}\NormalTok{ (n }\SpecialCharTok{*}\NormalTok{ (n }\SpecialCharTok{{-}}\NormalTok{ p)) }\SpecialCharTok{*}\NormalTok{ F\_critical}
+\NormalTok{F }\OtherTok{\textless{}{-}}\NormalTok{ (n}\SpecialCharTok{{-}}\NormalTok{p)}\SpecialCharTok{*}\NormalTok{n}\SpecialCharTok{/}\NormalTok{(p}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)) }\SpecialCharTok{*} \FunctionTok{t}\NormalTok{(x\_ave }\SpecialCharTok{{-}}\NormalTok{ mu0) }\SpecialCharTok{\%*\%}\NormalTok{ S\_inv }\SpecialCharTok{\%*\%}\NormalTok{ (x\_ave }\SpecialCharTok{{-}}\NormalTok{ mu0)}
 
-\CommentTok{\# 输出结果}
-\FunctionTok{cat}\NormalTok{(}\StringTok{"样本均值向量 x\_bar:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 样本均值向量 x_bar:
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{print}\NormalTok{(x\_bar)}
+\FunctionTok{print}\NormalTok{(x\_ave)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -200,13 +187,15 @@ p值0.06493，不能拒绝原假设
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{协方差矩阵的逆 S\^{}\{{-}1\}:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(S)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 
-## 协方差矩阵的逆 S^{-1}:
+##           x1       x2        x3
+## x1  2.879368  10.0100 -1.809053
+## x2 10.010000 199.7884 -5.640000
+## x3 -1.809053  -5.6400  3.627658
 \end{verbatim}
 
 \begin{Shaded}
@@ -224,17 +213,119 @@ p值0.06493，不能拒绝原假设
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{椭球方程的临界值 c ="}\NormalTok{, c\_value)}
+\FunctionTok{print}\NormalTok{(F)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 
-## 椭球方程的临界值 c = 0.5359302
+##          [,1]
+## [1,] 2.904546
 \end{verbatim}
 
-样本均值向量 \(\overline{x}=(4.615,45.305,9.965)'\)
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{17}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
 
-协方差矩阵的逆 \(S^{-1}=\left(\)
+\begin{verbatim}
+## [1] 3.196777
+\end{verbatim}
+
+样本均值向量 \(\overline{x}=(4.640,45.400,9.965)'\)
+
+协方差矩阵 \[
+S=\left(\begin{array}{1}
+2.879368 & 10.0100 & -1.809053 \\
+10.010000 & 199.7884 & -5.640000 \\
+-1.809053 & -5.6400 & 3.627658
+\end{array}\right)
+\]
+
+协方差矩阵的逆
+
+\[
+S^{-1}=\left(\begin{array}{1}
+0.58615531 & -0.022085719 & 0.257968742 \\
+-0.02208572 & 0.006067227 & -0.001580929 \\
+0.25796874 & -0.001580929 & 0.401846765
+\end{array}\right)
+\]
+
+\(F=\frac{(n-p)n}{p(n-1)}(\overline{x}-\mu_0)'S^{-1}(\overline{x}-\mu_0)=2.904546 < F_{0.005}(3,17)=3.196777\)
+
+接受\(H_0\)
+
+\subsection{第(2)问}\label{ux7b2c2ux95ee}
+
+\(T^{2}_{0.05}(3,19)=10.729\)
+
+\[
+20 \times \left(\begin{array}{1}
+4.64-\mu_1 \\ 45.4-\mu_2 \\ 9.965-\mu_3
+\end{array}\right)'
+\left(\begin{array}{1}
+0.58615531 & -0.022085719 & 0.257968742 \\
+-0.02208572 & 0.006067227 & -0.001580929 \\
+0.25796874 & -0.001580929 & 0.401846765
+\end{array}\right)
+\left(\begin{array}{1}
+4.64-\mu_1 \\ 45.4-\mu_2 \\ 9.965-\mu_3
+\end{array}\right)\leq 10.729
+\]
+
+绘图
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rgl)}
+\NormalTok{radius2 }\OtherTok{=} \FloatTok{10.729}
+\NormalTok{ellipsoid }\OtherTok{\textless{}{-}} \FunctionTok{ellipse3d}\NormalTok{(S, }\AttributeTok{centre =}\NormalTok{ x\_ave, }\AttributeTok{t =} \FunctionTok{sqrt}\NormalTok{(radius2))}
+\FunctionTok{plot3d}\NormalTok{(ellipsoid, }\AttributeTok{col =} \StringTok{"skyblue"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{)}
+\FunctionTok{points3d}\NormalTok{(x\_ave[}\DecValTok{1}\NormalTok{], x\_ave[}\DecValTok{2}\NormalTok{], x\_ave[}\DecValTok{3}\NormalTok{], }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{size =} \DecValTok{10}\NormalTok{)}
+\FunctionTok{points3d}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{x1, data}\SpecialCharTok{$}\NormalTok{x2, data}\SpecialCharTok{$}\NormalTok{x3, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{size =} \DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{第(3)问}\label{ux7b2c3ux95ee}
+
+\(T_{0.05}(3,19)=3.276\)
+\(\mu_i=\overline{x_i}\pm3.276 \times \sqrt{s_{ii}}/\sqrt{20}\) \[
+\begin{array}{1}\mu_1 \in (3.397, 5.883) & \mu_2 \in (35.048, 55.753) & \mu_3 \in (8.57, 11.36)\end{array}
+\]
+
+计算邦弗伦尼
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bonferroni\_ci }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{alpha =} \FloatTok{0.05}\NormalTok{) \{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(data)}
+\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(data)}
+\NormalTok{  means }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(data)}
+\NormalTok{  sds }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(data, }\DecValTok{2}\NormalTok{, sd)}
+\NormalTok{  t\_crit }\OtherTok{\textless{}{-}} \FunctionTok{qt}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alpha }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ p), }\AttributeTok{df =}\NormalTok{ n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\NormalTok{  error }\OtherTok{\textless{}{-}}\NormalTok{ t\_crit }\SpecialCharTok{*}\NormalTok{ sds }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(n)}
+\NormalTok{  lower }\OtherTok{\textless{}{-}}\NormalTok{ means }\SpecialCharTok{{-}}\NormalTok{ error}
+\NormalTok{  upper }\OtherTok{\textless{}{-}}\NormalTok{ means }\SpecialCharTok{+}\NormalTok{ error}
+\NormalTok{  result }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+    \AttributeTok{Variable =} \FunctionTok{colnames}\NormalTok{(data),}
+    \AttributeTok{Mean =} \FunctionTok{round}\NormalTok{(means, }\DecValTok{3}\NormalTok{),}
+    \AttributeTok{Lower =} \FunctionTok{round}\NormalTok{(lower, }\DecValTok{3}\NormalTok{),}
+    \AttributeTok{Upper =} \FunctionTok{round}\NormalTok{(upper, }\DecValTok{3}\NormalTok{)}
+\NormalTok{  )}
+  \FunctionTok{return}\NormalTok{(result)}
+\NormalTok{\}}
+\FunctionTok{bonferroni\_ci}\NormalTok{(data, }\AttributeTok{alpha =} \FloatTok{0.05}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Variable   Mean  Lower  Upper
+## x1       x1  4.640  3.644  5.636
+## x2       x2 45.400 37.103 53.697
+## x3       x3  9.965  8.847 11.083
+\end{verbatim}
+
+邦弗伦尼范围更小
 
 \end{document}
