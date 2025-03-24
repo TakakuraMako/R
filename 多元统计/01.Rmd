@@ -20,7 +20,7 @@ data <- data.frame(
 data %>% head(5)
 ```
 
-## 分析
+## 第(1)问
 
 ```{r ,fig.showtext=TRUE, message=FALSE, warning=FALSE}
 library(ICSNP)
@@ -28,4 +28,41 @@ mu0 <- c(4, 50, 10)
 result <- HotellingsT2(data, mu=mu0)
 print(result)
 ```
+
 p值0.06493，不能拒绝原假设
+
+## 第(2)问
+
+```{r,fig.showtext=TRUE, message=FALSE, warning=FALSE}
+# 计算样本均值向量和协方差矩阵
+x_bar <- colMeans(data)
+S <- cov(data)
+S_inv <- solve(S)
+
+n <- nrow(data)  # 样本量 n = 20
+p <- ncol(data)  # 变量维度 p = 3
+
+# 计算临界值
+alpha <- 0.05
+F_critical <- qf(1 - alpha, p, n - p)
+c_value <- (p * (n - 1)) / (n * (n - p)) * F_critical
+
+# 输出结果
+cat("样本均值向量 x_bar:\n")
+print(x_bar)
+cat("\n协方差矩阵的逆 S^{-1}:\n")
+print(S_inv)
+cat("\n椭球方程的临界值 c =", c_value)
+```
+
+样本均值向量 $\overline{x}=(4.615,45.305,9.965)'$
+
+协方差矩阵的逆
+
+$$
+S^{-1}=\left(\begin{array}{1}
+0.190 & 0.002 & -0.026 \\
+0.002 & 0.004 & -0.002 \\
+-0.026 & -0.002 & 0.078
+\end{array}\right)
+$$
