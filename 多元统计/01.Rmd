@@ -22,6 +22,8 @@ data %>% head(5)
 
 ## 第(1)问
 
+### 直接调用函数
+
 ```{r ,fig.showtext=TRUE, message=FALSE, warning=FALSE}
 library(ICSNP)
 mu0 <- c(4, 50, 10)
@@ -31,38 +33,69 @@ print(result)
 
 p值0.06493，不能拒绝原假设
 
-## 第(2)问
+### 手动计算
 
 ```{r,fig.showtext=TRUE, message=FALSE, warning=FALSE}
 # 计算样本均值向量和协方差矩阵
-x_bar <- colMeans(data)
-S <- cov(data)
-S_inv <- solve(S)
-
+x_ave = colMeans(data)
+S <- cov(data) #协方差矩阵
+S_inv <- solve(S) #逆矩阵
 n <- nrow(data)  # 样本量 n = 20
 p <- ncol(data)  # 变量维度 p = 3
 
-# 计算临界值
-alpha <- 0.05
-F_critical <- qf(1 - alpha, p, n - p)
-c_value <- (p * (n - 1)) / (n * (n - p)) * F_critical
+F <- (n-p)*n/(p*(n-1)) * t(x_ave - mu0) %*% S_inv %*% (x_ave - mu0)
 
-# 输出结果
-cat("样本均值向量 x_bar:\n")
-print(x_bar)
-cat("\n协方差矩阵的逆 S^{-1}:\n")
+print(x_ave)
+print(S)
 print(S_inv)
-cat("\n椭球方程的临界值 c =", c_value)
+print(F)
+print(qf(0.95, 3, 17))
 ```
 
-样本均值向量 $\overline{x}=(4.615,45.305,9.965)'$
+样本均值向量 $\overline{x}=(4.640,45.400,9.965)'$
+
+协方差矩阵 $$
+S=\left(\begin{array}{1}
+2.879368 & 10.0100 & -1.809053 \\
+10.010000 & 199.7884 & -5.640000 \\
+-1.809053 & -5.6400 & 3.627658
+\end{array}\right)
+$$
 
 协方差矩阵的逆
 
 $$
 S^{-1}=\left(\begin{array}{1}
-0.190 & 0.002 & -0.026 \\
-0.002 & 0.004 & -0.002 \\
--0.026 & -0.002 & 0.078
+0.58615531 & -0.022085719 & 0.257968742 \\
+-0.02208572 & 0.006067227 & -0.001580929 \\
+0.25796874 & -0.001580929 & 0.401846765
 \end{array}\right)
 $$
+
+$F=\frac{(n-p)n}{p(n-1)}(\overline{x}-\mu_0)'S^{-1}(\overline{x}-\mu_0)=2.904546 < F_{0.005}(3,17)=3.196777$
+
+接受$H_0$
+
+## 第(2)问
+
+$T^{2}_{0.05}(3,19)=10.729$
+
+$$
+20 \times \left(\begin{array}{1}
+4.64-\mu_1 \\ 45.4-\mu_2 \\ 9.965-\mu_3
+\end{array}\right)'
+\left(\begin{array}{1}
+0.58615531 & -0.022085719 & 0.257968742 \\
+-0.02208572 & 0.006067227 & -0.001580929 \\
+0.25796874 & -0.001580929 & 0.401846765
+\end{array}\right)
+\left(\begin{array}{1}
+4.64-\mu_1 \\ 45.4-\mu_2 \\ 9.965-\mu_3
+\end{array}\right)
+$$
+
+绘图
+
+```{r,out.width = '100%', message=FALSE, warning=FALSE}
+
+```
