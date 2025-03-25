@@ -1,0 +1,27 @@
+
+```{r}
+library(Hotelling)
+A <- matrix(c(194, 208, 233, 241, 265, 269,
+               192, 188, 217, 222, 252, 283,
+               141, 165, 171, 201, 207, 191), nrow = 3, byrow = TRUE)
+
+# 乙品牌轮胎数据
+B <- matrix(c(239, 189, 224, 243, 243, 226,
+               127, 105, 123, 123, 117, 125,
+               90, 85, 79, 110, 100, 75), nrow = 3, byrow = TRUE)
+
+# 将数据转换为数据框形式
+A_df <- as.data.frame(t(A))
+B_df <- as.data.frame(t(B))
+colnames(A_df) <- c("阶段1", "阶段2", "阶段3")
+colnames(B_df) <- c("阶段1", "阶段2", "阶段3")
+
+# 进行Hotelling's T^2检验
+result <- hotelling.test(A_df, B_df)
+print(result)
+```
+
+
+
+
+
